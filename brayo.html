@@ -1,0 +1,3102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>School Case Management System</title>
+
+<link rel="icon"
+      type="image/png"
+      href="C:\Users\BRIAN.O\Desktop\projects\42749107019 BRIAN ODUOR">
+
+<style>
+
+/* GENERAL SETTINGS */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #111;
+    color: #222;
+}
+
+
+/* 
+   LOGIN PAGE
+   */
+
+#loginPage {
+    position: fixed;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.72),
+            rgba(0,0,0,0.72)
+        ),
+        url("background.jpg") center/cover no-repeat;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+}
+
+.login-box {
+    width: min(420px, 90%);
+    background: rgba(255,255,255,0.96);
+
+    padding: 35px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 15px 50px rgba(0,0,0,0.5);
+
+    text-align: center;
+}
+
+.login-box h1 {
+    margin-bottom: 10px;
+    color: #123b63;
+}
+
+.login-box p {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 14px;
+
+    border: 1px solid #bbb;
+    border-radius: 8px;
+
+    margin-bottom: 15px;
+
+    font-size: 16px;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 14px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #123b63;
+    color: white;
+
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background: #0b2844;
+}
+
+.error {
+    color: #d00000;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.info {
+    color: #1769aa;
+    margin-top: 10px;
+}
+
+
+/* =========================================================
+   MAIN SYSTEM
+   ========================================================= */
+
+#app {
+    display: none;
+    min-height: 100vh;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.58),
+            rgba(0,0,0,0.58)
+        ),
+        url("background.jpg") center/cover fixed no-repeat;
+}
+
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.topbar {
+    height: 75px;
+
+    background:
+        rgba(8, 30, 50, 0.94);
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 10px 20px;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand img {
+    width: 48px;
+    height: 48px;
+
+    object-fit: contain;
+
+    border-radius: 8px;
+
+    background: white;
+}
+
+.school-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.search-area {
+    display: flex;
+    gap: 8px;
+}
+
+.search-area input {
+    width: 230px;
+
+    padding: 11px;
+
+    border-radius: 7px;
+    border: none;
+    outline: none;
+}
+
+.search-area button {
+    padding: 11px 15px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: #2d9cdb;
+    color: white;
+
+    cursor: pointer;
+}
+
+.search-area button:hover {
+    background: #1678ad;
+}
+
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+.dashboard {
+    padding: 25px;
+
+    max-width: 1500px;
+
+    margin: auto;
+}
+
+.dashboard-title {
+    color: white;
+
+    margin-bottom: 20px;
+
+    text-shadow:
+        0 2px 5px #000;
+}
+
+
+/* =========================================================
+   THREE MAIN COLUMNS
+   ========================================================= */
+
+.category-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.category {
+    background:
+        rgba(255,255,255,0.93);
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,0.35);
+}
+
+.category-title {
+    padding: 20px;
+
+    background: #123b63;
+    color: white;
+
+    text-align: center;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.category-title:hover {
+    background: #1d609b;
+    transform: scale(1.02);
+}
+
+
+/* =========================================================
+   GRADE DROPDOWN
+   ========================================================= */
+
+.grade-menu {
+    display: none;
+    background: white;
+}
+
+.grade-menu.show {
+    display: block;
+}
+
+.grade-button {
+    width: 100%;
+
+    padding: 15px;
+
+    border: none;
+
+    border-bottom:
+        1px solid #ddd;
+
+    background: #f8f8f8;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+.grade-button:hover {
+    background: #dceeff;
+    padding-left: 25px;
+}
+
+
+/* =========================================================
+   PENDING / COMPLETED
+   ========================================================= */
+
+.status-buttons {
+    display: flex;
+
+    gap: 15px;
+
+    margin: 25px 0;
+}
+
+.status-button {
+    flex: 1;
+
+    padding: 18px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    transition: 0.25s;
+}
+
+.status-button:hover {
+    transform: translateY(-3px);
+}
+
+.pending {
+    background: #d97706;
+}
+
+.completed {
+    background: #16803c;
+}
+
+
+/* =========================================================
+   TABLE AREA
+   ========================================================= */
+
+.table-container {
+    background:
+        rgba(255,255,255,0.96);
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    margin-top: 20px;
+
+    overflow-x: auto;
+}
+
+.table-title {
+    margin-bottom: 15px;
+
+    color: #123b63;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 1000px;
+}
+
+th {
+    background: #123b63;
+
+    color: white;
+
+    padding: 12px;
+
+    text-align: left;
+}
+
+td {
+    padding: 10px;
+
+    border-bottom:
+        1px solid #ddd;
+
+    vertical-align: top;
+}
+
+tr:hover {
+    background: #f0f7ff;
+}
+
+
+/* =========================================================
+   ADD RECORD FORM
+   ========================================================= */
+
+.form-box {
+    background:
+        rgba(255,255,255,0.96);
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    margin-top: 20px;
+}
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 11px;
+
+    border: 1px solid #bbb;
+
+    border-radius: 7px;
+}
+
+.form-group textarea {
+    min-height: 90px;
+
+    resize: vertical;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.add-button {
+    margin-top: 15px;
+
+    padding: 13px 25px;
+
+    border: none;
+
+    background: #123b63;
+
+    color: white;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+.add-button:hover {
+    background: #0b2844;
+}
+
+
+/* =========================================================
+   CHECKBOX
+   ========================================================= */
+
+.approved-checkbox {
+    width: 20px;
+    height: 20px;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   SEARCH RESULT
+   ========================================================= */
+
+#searchResult {
+    display: none;
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    margin: 20px 0;
+}
+
+.search-result-title {
+    color: #123b63;
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================================================
+   SLEEP / LOGOUT
+   ========================================================= */
+
+#sleepTimer {
+    position: fixed;
+
+    bottom: 15px;
+    right: 15px;
+
+    background:
+        rgba(0,0,0,0.75);
+
+    color: white;
+
+    padding: 8px 12px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    z-index: 500;
+}
+
+.logout-button {
+    margin-left: 10px;
+
+    background: #c62828;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 14px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background: #9d1d1d;
+}
+
+
+/* =========================================================
+   DATABASE STATUS
+   ========================================================= */
+
+#databaseStatus {
+    position: fixed;
+
+    bottom: 15px;
+    left: 15px;
+
+    background:
+        rgba(0,0,0,0.75);
+
+    color: #7CFC00;
+
+    padding: 8px 12px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    z-index: 500;
+}
+
+
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        height: auto;
+
+        flex-direction: column;
+
+        gap: 10px;
+    }
+
+    .search-area {
+        width: 100%;
+    }
+
+    .search-area input {
+        flex: 1;
+
+        width: auto;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     LOGIN
+     ========================================================= -->
+
+<div id="loginPage">
+
+    <div class="login-box">
+
+        <h1>ADMIN ACCESS</h1>
+
+        <p id="loginDescription">
+            Enter the administrator password.
+        </p>
+
+        <input
+            type="password"
+            id="passwordInput"
+            placeholder="Enter password"
+            autocomplete="off"
+        >
+
+        <input
+            type="password"
+            id="confirmPasswordInput"
+            placeholder="Confirm password"
+            autocomplete="off"
+            style="display:none;"
+        >
+
+        <button
+            onclick="loginOrCreatePassword()"
+            id="loginButton"
+        >
+            LOGIN
+        </button>
+
+        <div id="loginMessage"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MAIN APPLICATION
+     ========================================================= -->
+
+<div id="app">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <div class="brand">
+
+            <img
+                src="C:\Users\BRIAN.O\Desktop\projects\42749107019 BRIAN ODUOR"
+                alt="School Logo"
+            >
+
+            <span class="school-name">
+                SAWAGONGO NATIONAL SCHOOL
+            </span>
+
+        </div>
+
+
+        <div class="search-area">
+
+            <input
+                type="text"
+                id="searchCaseInput"
+                placeholder="Search CASE NO e.g. 001"
+                oninput="searchCase()"
+            >
+
+            <button
+                onclick="searchCase()"
+            >
+                SEARCH
+            </button>
+
+            <button
+                class="logout-button"
+                onclick="logout()"
+            >
+                LOCK
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- DASHBOARD -->
+
+    <main class="dashboard">
+
+        <h2 class="dashboard-title">
+            SAWAGONGO CASE MANAGEMENT DASHBOARD
+        </h2>
+
+
+        <!-- SEARCH RESULT -->
+
+        <div id="searchResult">
+
+            <h3 class="search-result-title">
+                SEARCH RESULT
+            </h3>
+
+            <div id="searchResultContent"></div>
+
+        </div>
+
+
+        <!-- =================================================
+             THREE CATEGORIES
+             ================================================= -->
+
+        <div class="category-grid">
+
+
+            <!-- CLASS -->
+
+            <section class="category">
+
+                <div
+                    class="category-title"
+                    onclick="toggleMenu('classMenu')"
+                >
+                    CLASS
+                </div>
+
+                <div
+                    class="grade-menu"
+                    id="classMenu"
+                >
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('CLASS','FORM 3')"
+                    >
+                        FORM 3
+                    </button>
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('CLASS','FORM 4')"
+                    >
+                        FORM 4
+                    </button>
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('CLASS','GRADE 10')"
+                    >
+                        GRADE 10
+                    </button>
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('CLASS','GRADE 11')"
+                    >
+                        GRADE 11
+                    </button>
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('CLASS','GRADE 12')"
+                    >
+                        GRADE 12
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- DORMITORY -->
+
+            <section class="category">
+
+                <div
+                    class="category-title"
+                    onclick="toggleMenu('dormitoryMenu')"
+                >
+                    DORMITORY
+                </div>
+
+                <div
+                    class="grade-menu"
+                    id="dormitoryMenu"
+                >
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('DORMITORY','FORM 3')"
+                    >
+                        FORM 3
+                    </button>
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('DORMITORY','FORM 4')"
+                    >
+                        FORM 4
+                    </button>
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('DORMITORY','GRADE 10')"
+                    >
+                        GRADE 10
+                    </button>
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('DORMITORY','GRADE 11')"
+                    >
+                        GRADE 11
+                    </button>
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('DORMITORY','GRADE 12')"
+                    >
+                        GRADE 12
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- ENVIRONMENT -->
+
+            <section class="category">
+
+                <div
+                    class="category-title"
+                    onclick="toggleMenu('environmentMenu')"
+                >
+                    ENVIRONMENT
+                </div>
+
+                <div
+                    class="grade-menu"
+                    id="environmentMenu"
+                >
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('ENVIRONMENT','FORM 3')"
+                    >
+                        FORM 3
+                    </button>
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('ENVIRONMENT','FORM 4')"
+                    >
+                        FORM 4
+                    </button>
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('ENVIRONMENT','GRADE 10')"
+                    >
+                        GRADE 10
+                    </button>
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('ENVIRONMENT','GRADE 11')"
+                    >
+                        GRADE 11
+                    </button>
+
+                    <button
+                        class="grade-button"
+                        onclick="showAddForm('ENVIRONMENT','GRADE 12')"
+                    >
+                        GRADE 12
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =================================================
+             STATUS BUTTONS
+             ================================================= -->
+
+        <div class="status-buttons">
+
+            <button
+                class="status-button pending"
+                onclick="showRecords('PENDING')"
+            >
+                PENDING CASES
+            </button>
+
+            <button
+                class="status-button completed"
+                onclick="showRecords('COMPLETED')"
+            >
+                COMPLETED CASES
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             ADD RECORD FORM
+             ================================================= -->
+
+        <div
+            class="form-box"
+            id="recordForm"
+            style="display:none;"
+        >
+
+            <h2 id="formTitle">
+                Add New Case
+            </h2>
+
+            <br>
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        CASE NO
+                    </label>
+
+                    <input
+                        type="text"
+                        id="caseNo"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        ADM NO
+                    </label>
+
+                    <input
+                        type="number"
+                        id="admNo"
+                        placeholder="Enter admission number"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        STUDENT NAME
+                    </label>
+
+                    <input
+                        type="text"
+                        id="studentName"
+                        placeholder="Student name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        CLASS / GRADE
+                    </label>
+
+                    <input
+                        type="text"
+                        id="studentClass"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        CATEGORY
+                    </label>
+
+                    <input
+                        type="text"
+                        id="category"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        DATE
+                    </label>
+
+                    <input
+                        type="date"
+                        id="caseDate"
+                    >
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label>
+                        DESCRIPTION
+                    </label>
+
+                    <textarea
+                        id="description"
+                        placeholder="Describe the reported case..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="add-button"
+                onclick="addCase()"
+            >
+                SAVE CASE
+            </button>
+
+            <button
+                class="add-button"
+                onclick="cancelForm()"
+                style="background:#777;"
+            >
+                CANCEL
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             RECORD TABLE
+             ================================================= -->
+
+        <div
+            class="table-container"
+            id="recordsContainer"
+            style="display:none;"
+        >
+
+            <h2
+                class="table-title"
+                id="recordsTitle"
+            >
+                CASES
+            </h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>CASE NO</th>
+                        <th>ADM NO</th>
+                        <th>STUDENT NAME</th>
+                        <th>CLASS</th>
+                        <th>DESCRIPTION</th>
+                        <th>DATE</th>
+                        <th>APPROVED</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="recordsBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+
+    <!-- AUTO LOCK -->
+
+    <div id="sleepTimer">
+        Auto-lock: 10:00
+    </div>
+
+
+    <!-- DATABASE STATUS -->
+
+    <div id="databaseStatus">
+        Database: Connecting...
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   CONFIGURATION
+   ========================================================= */
+
+const INACTIVITY_LIMIT =
+    10 * 60 * 1000;
+
+let inactivityTimer;
+let countdownTimer;
+
+let remainingTime =
+    INACTIVITY_LIMIT;
+
+
+/* =========================================================
+   INDEXEDDB DATABASE
+   ========================================================= */
+
+let db = null;
+
+let databaseReady = false;
+
+
+/*
+   Open the IndexedDB database.
+*/
+
+const dbRequest =
+    indexedDB.open(
+        "SchoolCaseDB",
+        1
+    );
+
+
+/*
+   This runs when the database is
+   created for the first time or
+   when the database version changes.
+*/
+
+dbRequest.onupgradeneeded =
+    function(event) {
+
+        db =
+            event.target.result;
+
+
+        /*
+           Create cases object store.
+        */
+
+        if (
+            !db.objectStoreNames.contains(
+                "cases"
+            )
+        ) {
+
+            const caseStore =
+                db.createObjectStore(
+                    "cases",
+                    {
+                        keyPath: "caseNo"
+                    }
+                );
+
+
+            /*
+               Index for status.
+            */
+
+            caseStore.createIndex(
+                "status",
+                "status",
+                {
+                    unique: false
+                }
+            );
+
+
+            /*
+               Index for admission number.
+            */
+
+            caseStore.createIndex(
+                "admNo",
+                "admNo",
+                {
+                    unique: false
+                }
+            );
+
+
+            /*
+               Index for date.
+            */
+
+            caseStore.createIndex(
+                "date",
+                "date",
+                {
+                    unique: false
+                }
+            );
+
+        }
+
+    };
+
+
+/*
+   Database opened successfully.
+*/
+
+dbRequest.onsuccess =
+    function(event) {
+
+        db =
+            event.target.result;
+
+        databaseReady = true;
+
+
+        document.getElementById(
+            "databaseStatus"
+        ).textContent =
+            "Database: Connected";
+
+
+        document.getElementById(
+            "databaseStatus"
+        ).style.color =
+            "#7CFC00";
+
+
+        console.log(
+            "IndexedDB connected successfully."
+        );
+
+
+        /*
+           Initialize login only after
+           IndexedDB is ready.
+        */
+
+        initializeLogin();
+
+    };
+
+
+/*
+   Database error.
+*/
+
+dbRequest.onerror =
+    function(event) {
+
+        console.error(
+            "IndexedDB error:",
+            event.target.error
+        );
+
+
+        document.getElementById(
+            "databaseStatus"
+        ).textContent =
+            "Database: ERROR";
+
+
+        document.getElementById(
+            "databaseStatus"
+        ).style.color =
+            "#ff4444";
+
+
+        alert(
+            "Unable to open the local database."
+        );
+
+    };
+
+
+/*
+   Handle unexpected database closure.
+*/
+
+dbRequest.onblocked =
+    function() {
+
+        alert(
+            "The database is blocked. " +
+            "Please close other tabs of this website."
+        );
+
+    };
+
+
+/* =========================================================
+   DATABASE HELPER
+   ========================================================= */
+
+
+/*
+   Get ALL cases from IndexedDB.
+*/
+
+function getAllCases() {
+
+    return new Promise(
+        function(resolve, reject) {
+
+            if (!databaseReady || !db) {
+
+                reject(
+                    new Error(
+                        "Database is not ready."
+                    )
+                );
+
+                return;
+
+            }
+
+
+            const transaction =
+                db.transaction(
+                    ["cases"],
+                    "readonly"
+                );
+
+
+            const store =
+                transaction.objectStore(
+                    "cases"
+                );
+
+
+            const request =
+                store.getAll();
+
+
+            request.onsuccess =
+                function() {
+
+                    resolve(
+                        request.result
+                    );
+
+                };
+
+
+            request.onerror =
+                function() {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+/*
+   Add a case to IndexedDB.
+*/
+
+function addCaseToDatabase(newCase) {
+
+    return new Promise(
+        function(resolve, reject) {
+
+            if (!databaseReady || !db) {
+
+                reject(
+                    new Error(
+                        "Database is not ready."
+                    )
+                );
+
+                return;
+
+            }
+
+
+            const transaction =
+                db.transaction(
+                    ["cases"],
+                    "readwrite"
+                );
+
+
+            const store =
+                transaction.objectStore(
+                    "cases"
+                );
+
+
+            const request =
+                store.add(newCase);
+
+
+            request.onsuccess =
+                function() {
+
+                    resolve();
+
+                };
+
+
+            request.onerror =
+                function() {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+/*
+   Update a case in IndexedDB.
+*/
+
+function updateCaseInDatabase(updatedCase) {
+
+    return new Promise(
+        function(resolve, reject) {
+
+            if (!databaseReady || !db) {
+
+                reject(
+                    new Error(
+                        "Database is not ready."
+                    )
+                );
+
+                return;
+
+            }
+
+
+            const transaction =
+                db.transaction(
+                    ["cases"],
+                    "readwrite"
+                );
+
+
+            const store =
+                transaction.objectStore(
+                    "cases"
+                );
+
+
+            const request =
+                store.put(updatedCase);
+
+
+            request.onsuccess =
+                function() {
+
+                    resolve();
+
+                };
+
+
+            request.onerror =
+                function() {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+/*
+   Get one case by case number.
+*/
+
+function getCaseFromDatabase(caseNo) {
+
+    return new Promise(
+        function(resolve, reject) {
+
+            if (!databaseReady || !db) {
+
+                reject(
+                    new Error(
+                        "Database is not ready."
+                    )
+                );
+
+                return;
+
+            }
+
+
+            const transaction =
+                db.transaction(
+                    ["cases"],
+                    "readonly"
+                );
+
+
+            const store =
+                transaction.objectStore(
+                    "cases"
+                );
+
+
+            const request =
+                store.get(caseNo);
+
+
+            request.onsuccess =
+                function() {
+
+                    resolve(
+                        request.result
+                    );
+
+                };
+
+
+            request.onerror =
+                function() {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   PASSWORD SYSTEM
+   ========================================================= */
+
+function loginOrCreatePassword() {
+
+    const password =
+        document.getElementById(
+            "passwordInput"
+        ).value;
+
+
+    const confirmPassword =
+        document.getElementById(
+            "confirmPasswordInput"
+        ).value;
+
+
+    const message =
+        document.getElementById(
+            "loginMessage"
+        );
+
+
+    /*
+       First-time password creation.
+    */
+
+    if (
+        !localStorage.getItem(
+            "adminPassword"
+        )
+    ) {
+
+
+        const alphaNumeric =
+            /^[A-Za-z0-9]+$/;
+
+
+        if (
+            !alphaNumeric.test(
+                password
+            )
+        ) {
+
+            message.className =
+                "error";
+
+            message.textContent =
+                "Password must contain letters and numbers only.";
+
+            return;
+
+        }
+
+
+        if (
+            password.length < 6
+        ) {
+
+            message.className =
+                "error";
+
+            message.textContent =
+                "Password must contain at least 6 characters.";
+
+            return;
+
+        }
+
+
+        if (
+            password !==
+            confirmPassword
+        ) {
+
+            message.className =
+                "error";
+
+            message.textContent =
+                "Passwords do not match.";
+
+            return;
+
+        }
+
+
+        localStorage.setItem(
+            "adminPassword",
+            password
+        );
+
+
+        message.className =
+            "info";
+
+
+        message.textContent =
+            "Password created successfully.";
+
+
+        setTimeout(
+            function() {
+
+                openSystem();
+
+            },
+            500
+        );
+
+
+        return;
+
+    }
+
+
+    /*
+       Existing password.
+    */
+
+    if (
+        password ===
+        localStorage.getItem(
+            "adminPassword"
+        )
+    ) {
+
+        openSystem();
+
+    } else {
+
+        message.className =
+            "error";
+
+        message.textContent =
+            "Incorrect administrator password.";
+
+    }
+
+}
+
+
+/* =========================================================
+   FIRST TIME LOGIN UI
+   ========================================================= */
+
+function initializeLogin() {
+
+    const passwordExists =
+        localStorage.getItem(
+            "adminPassword"
+        );
+
+
+    if (!passwordExists) {
+
+        document.getElementById(
+            "loginDescription"
+        ).textContent =
+            "Create an administrator password.";
+
+
+        document.getElementById(
+            "confirmPasswordInput"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "loginButton"
+        ).textContent =
+            "CREATE PASSWORD";
+
+    }
+
+}
+
+
+/* =========================================================
+   OPEN SYSTEM
+   ========================================================= */
+
+function openSystem() {
+
+    document.getElementById(
+        "loginPage"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "app"
+    ).style.display =
+        "block";
+
+
+    resetInactivityTimer();
+
+
+    /*
+       Set today's date.
+    */
+
+    document.getElementById(
+        "caseDate"
+    ).valueAsDate =
+        new Date();
+
+}
+
+
+/* =========================================================
+   LOGOUT / LOCK
+   ========================================================= */
+
+function logout() {
+
+    clearTimeout(
+        inactivityTimer
+    );
+
+
+    clearInterval(
+        countdownTimer
+    );
+
+
+    document.getElementById(
+        "app"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "loginPage"
+    ).style.display =
+        "flex";
+
+
+    document.getElementById(
+        "passwordInput"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "confirmPasswordInput"
+    ).value =
+        "";
+
+
+    remainingTime =
+        INACTIVITY_LIMIT;
+
+
+    updateCountdown();
+
+}
+
+
+/* =========================================================
+   INACTIVITY TIMER
+   ========================================================= */
+
+function resetInactivityTimer() {
+
+    clearTimeout(
+        inactivityTimer
+    );
+
+
+    clearInterval(
+        countdownTimer
+    );
+
+
+    remainingTime =
+        INACTIVITY_LIMIT;
+
+
+    updateCountdown();
+
+
+    inactivityTimer =
+        setTimeout(
+            function() {
+
+                logout();
+
+            },
+            INACTIVITY_LIMIT
+        );
+
+
+    countdownTimer =
+        setInterval(
+            function() {
+
+                remainingTime -=
+                    1000;
+
+
+                updateCountdown();
+
+
+                if (
+                    remainingTime <= 0
+                ) {
+
+                    clearInterval(
+                        countdownTimer
+                    );
+
+                }
+
+            },
+            1000
+        );
+
+}
+
+
+function updateCountdown() {
+
+    const minutes =
+        Math.floor(
+            remainingTime / 60000
+        );
+
+
+    const seconds =
+        Math.floor(
+            (remainingTime % 60000) / 1000
+        );
+
+
+    document.getElementById(
+        "sleepTimer"
+    ).textContent =
+        "Auto-lock: " +
+        String(minutes)
+            .padStart(2, "0") +
+        ":" +
+        String(seconds)
+            .padStart(2, "0");
+
+}
+
+
+/*
+   Reset inactivity timer whenever
+   the user interacts with the system.
+*/
+
+[
+    "click",
+    "mousemove",
+    "keypress",
+    "scroll",
+    "touchstart"
+].forEach(
+    function(eventName) {
+
+        document.addEventListener(
+            eventName,
+            function() {
+
+                if (
+                    document.getElementById(
+                        "app"
+                    ).style.display !==
+                    "none"
+                ) {
+
+                    resetInactivityTimer();
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   DROPDOWN MENUS
+   ========================================================= */
+
+function toggleMenu(menuID) {
+
+    const menu =
+        document.getElementById(
+            menuID
+        );
+
+
+    menu.classList.toggle(
+        "show"
+    );
+
+}
+
+
+/* =========================================================
+   SHOW ADD CASE FORM
+   ========================================================= */
+
+async function showAddForm(
+    category,
+    grade
+) {
+
+    document.getElementById(
+        "recordForm"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "recordsContainer"
+    ).style.display =
+        "none";
+
+
+    /*
+       Generate next case number
+       from IndexedDB.
+    */
+
+    const nextCase =
+        await getNextCaseNumber();
+
+
+    document.getElementById(
+        "caseNo"
+    ).value =
+        nextCase;
+
+
+    document.getElementById(
+        "category"
+    ).value =
+        category;
+
+
+    document.getElementById(
+        "studentClass"
+    ).value =
+        grade;
+
+
+    document.getElementById(
+        "formTitle"
+    ).textContent =
+        "NEW " +
+        category +
+        " CASE — " +
+        grade;
+
+
+    document.getElementById(
+        "recordForm"
+    ).scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================================
+   CASE NUMBER GENERATION
+   ========================================================= */
+
+async function getNextCaseNumber() {
+
+    const allCases =
+        await getAllCases();
+
+
+    if (
+        allCases.length === 0
+    ) {
+
+        return "001";
+
+    }
+
+
+    let highest = 0;
+
+
+    allCases.forEach(
+        function(item) {
+
+            const number =
+                parseInt(
+                    item.caseNo,
+                    10
+                );
+
+
+            if (
+                !isNaN(number) &&
+                number > highest
+            ) {
+
+                highest =
+                    number;
+
+            }
+
+        }
+    );
+
+
+    return String(
+        highest + 1
+    ).padStart(
+        3,
+        "0"
+    );
+
+}
+
+
+/* =========================================================
+   ADD CASE
+   ========================================================= */
+
+async function addCase() {
+
+    if (
+        !databaseReady
+    ) {
+
+        alert(
+            "Database is not ready. Please wait a moment and try again."
+        );
+
+        return;
+
+    }
+
+
+    const caseNo =
+        document.getElementById(
+            "caseNo"
+        ).value;
+
+
+    const admNo =
+        document.getElementById(
+            "admNo"
+        ).value;
+
+
+    const studentName =
+        document.getElementById(
+            "studentName"
+        ).value.trim();
+
+
+    const studentClass =
+        document.getElementById(
+            "studentClass"
+        ).value;
+
+
+    const category =
+        document.getElementById(
+            "category"
+        ).value;
+
+
+    const description =
+        document.getElementById(
+            "description"
+        ).value.trim();
+
+
+    const date =
+        document.getElementById(
+            "caseDate"
+        ).value;
+
+
+    /*
+       Validation.
+    */
+
+    if (!admNo) {
+
+        alert(
+            "Please enter the ADM NO."
+        );
+
+        return;
+
+    }
+
+
+    if (!studentName) {
+
+        alert(
+            "Please enter the student's name."
+        );
+
+        return;
+
+    }
+
+
+    if (!description) {
+
+        alert(
+            "Please enter the case description."
+        );
+
+        return;
+
+    }
+
+
+    if (!date) {
+
+        alert(
+            "Please select the date."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Create record.
+    */
+
+    const newCase = {
+
+        caseNo:
+            caseNo,
+
+        admNo:
+            admNo,
+
+        studentName:
+            studentName,
+
+        className:
+            studentClass,
+
+        category:
+            category,
+
+        description:
+            description,
+
+        date:
+            date,
+
+        approved:
+            false,
+
+        status:
+            "PENDING"
+
+    };
+
+
+    try {
+
+        /*
+           Save directly into IndexedDB.
+        */
+
+        await addCaseToDatabase(
+            newCase
+        );
+
+
+        alert(
+            "Case " +
+            caseNo +
+            " has been added to PENDING."
+        );
+
+
+        clearForm();
+
+
+        showRecords(
+            "PENDING"
+        );
+
+
+    } catch(error) {
+
+        console.error(
+            error
+        );
+
+
+        /*
+           Duplicate case number.
+        */
+
+        if (
+            error &&
+            error.name ===
+                "ConstraintError"
+        ) {
+
+            alert(
+                "This CASE NO already exists. Please try again."
+            );
+
+        } else {
+
+            alert(
+                "Unable to save the case."
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   CLEAR FORM
+   ========================================================= */
+
+function clearForm() {
+
+    document.getElementById(
+        "admNo"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "studentName"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "description"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "recordForm"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =========================================================
+   CANCEL FORM
+   ========================================================= */
+
+function cancelForm() {
+
+    clearForm();
+
+}
+
+
+/* =========================================================
+   SHOW PENDING / COMPLETED
+   ========================================================= */
+
+async function showRecords(
+    status
+) {
+
+    if (
+        !databaseReady
+    ) {
+
+        alert(
+            "Database is not ready."
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "recordsContainer"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "recordForm"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "recordsTitle"
+    ).textContent =
+        status +
+        " CASES";
+
+
+    const body =
+        document.getElementById(
+            "recordsBody"
+        );
+
+
+    body.innerHTML =
+        `
+        <tr>
+            <td colspan="7"
+                style="text-align:center;padding:25px;">
+                Loading cases...
+            </td>
+        </tr>
+        `;
+
+
+    try {
+
+        const allCases =
+            await getAllCases();
+
+
+        const filtered =
+            allCases.filter(
+                function(item) {
+
+                    return (
+                        item.status ===
+                        status
+                    );
+
+                }
+            );
+
+
+        /*
+           Sort by case number.
+        */
+
+        filtered.sort(
+            function(a, b) {
+
+                return (
+                    parseInt(
+                        a.caseNo
+                    ) -
+                    parseInt(
+                        b.caseNo
+                    )
+                );
+
+            }
+        );
+
+
+        body.innerHTML =
+            "";
+
+
+        if (
+            filtered.length === 0
+        ) {
+
+            body.innerHTML =
+                `
+                <tr>
+
+                    <td
+                        colspan="7"
+                        style="text-align:center;padding:25px;"
+                    >
+
+                        No ${
+                            status.toLowerCase()
+                        } cases found.
+
+                    </td>
+
+                </tr>
+                `;
+
+
+            return;
+
+        }
+
+
+        filtered.forEach(
+            function(item) {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                let approvedCell =
+                    "";
+
+
+                /*
+                   Pending records have
+                   an active checkbox.
+                */
+
+                if (
+                    item.status ===
+                    "PENDING"
+                ) {
+
+                    approvedCell =
+                        `
+                        <input
+                            type="checkbox"
+                            class="approved-checkbox"
+                            onchange="approveCase('${escapeHTML(item.caseNo)}')"
+                        >
+                        `;
+
+                } else {
+
+                    approvedCell =
+                        `
+                        <input
+                            type="checkbox"
+                            class="approved-checkbox"
+                            checked
+                            disabled
+                        >
+                        `;
+
+                }
+
+
+                row.innerHTML =
+                    `
+
+                    <td>
+                        ${escapeHTML(
+                            item.caseNo
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            item.admNo
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            item.studentName
+                        )}
+                    </td>
+
+                    <td>
+
+                        ${escapeHTML(
+                            item.className
+                        )}
+
+                        <br>
+
+                        <small>
+                            ${escapeHTML(
+                                item.category
+                            )}
+                        </small>
+
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            item.description
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            item.date
+                        )}
+                    </td>
+
+                    <td>
+                        ${approvedCell}
+                    </td>
+
+                    `;
+
+
+                body.appendChild(
+                    row
+                );
+
+            }
+        );
+
+
+        document.getElementById(
+            "recordsContainer"
+        ).scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+    } catch(error) {
+
+        console.error(
+            error
+        );
+
+
+        body.innerHTML =
+            `
+            <tr>
+
+                <td
+                    colspan="7"
+                    style="text-align:center;color:red;padding:25px;"
+                >
+                    Unable to load cases.
+                </td>
+
+            </tr>
+            `;
+
+    }
+
+}
+
+
+/* =========================================================
+   APPROVE CASE
+   ========================================================= */
+
+async function approveCase(
+    caseNo
+) {
+
+    try {
+
+        const selectedCase =
+            await getCaseFromDatabase(
+                caseNo
+            );
+
+
+        if (!selectedCase) {
+
+            alert(
+                "Case not found."
+            );
+
+            return;
+
+        }
+
+
+        /*
+           Change status.
+        */
+
+        selectedCase.approved =
+            true;
+
+
+        selectedCase.status =
+            "COMPLETED";
+
+
+        /*
+           Update IndexedDB.
+        */
+
+        await updateCaseInDatabase(
+            selectedCase
+        );
+
+
+        alert(
+            "Case " +
+            caseNo +
+            " has been moved to COMPLETED."
+        );
+
+
+        /*
+           Refresh pending list.
+        */
+
+        showRecords(
+            "PENDING"
+        );
+
+
+    } catch(error) {
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "Unable to approve the case."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SEARCH CASE
+   ========================================================= */
+
+async function searchCase() {
+
+    if (
+        !databaseReady
+    ) {
+
+        return;
+
+    }
+
+
+    const searchValue =
+        document.getElementById(
+            "searchCaseInput"
+        )
+        .value
+        .trim()
+        .toUpperCase();
+
+
+    const resultBox =
+        document.getElementById(
+            "searchResult"
+        );
+
+
+    const resultContent =
+        document.getElementById(
+            "searchResultContent"
+        );
+
+
+    /*
+       Empty search.
+    */
+
+    if (!searchValue) {
+
+        resultBox.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    /*
+       Allow 1 instead of 001.
+    */
+
+    const normalized =
+        searchValue.replace(
+            /^0+/,
+            ""
+        );
+
+
+    try {
+
+        const allCases =
+            await getAllCases();
+
+
+        const found =
+            allCases.find(
+                function(item) {
+
+                    const stored =
+                        String(
+                            item.caseNo
+                        ).replace(
+                            /^0+/,
+                            ""
+                        );
+
+
+                    return (
+                        stored ===
+                        normalized
+                    );
+
+                }
+            );
+
+
+        resultBox.style.display =
+            "block";
+
+
+        if (!found) {
+
+            resultContent.innerHTML =
+                `
+                <p
+                    style="
+                        color:#c62828;
+                        font-weight:bold;
+                    "
+                >
+                    No case found with CASE NO
+                    ${escapeHTML(
+                        searchValue
+                    )}.
+                </p>
+                `;
+
+            return;
+
+        }
+
+
+        resultContent.innerHTML =
+            `
+
+            <table style="min-width:0;">
+
+                <tr>
+
+                    <th>
+                        CASE NO
+                    </th>
+
+                    <td>
+                        ${escapeHTML(
+                            found.caseNo
+                        )}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        ADM NO
+                    </th>
+
+                    <td>
+                        ${escapeHTML(
+                            found.admNo
+                        )}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        STUDENT NAME
+                    </th>
+
+                    <td>
+                        ${escapeHTML(
+                            found.studentName
+                        )}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        CLASS
+                    </th>
+
+                    <td>
+                        ${escapeHTML(
+                            found.className
+                        )}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        CATEGORY
+                    </th>
+
+                    <td>
+                        ${escapeHTML(
+                            found.category
+                        )}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        DESCRIPTION
+                    </th>
+
+                    <td>
+                        ${escapeHTML(
+                            found.description
+                        )}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        DATE
+                    </th>
+
+                    <td>
+                        ${escapeHTML(
+                            found.date
+                        )}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        STATUS
+                    </th>
+
+                    <td>
+
+                        <strong>
+                            ${escapeHTML(
+                                found.status
+                            )}
+                        </strong>
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        APPROVED
+                    </th>
+
+                    <td>
+
+                        ${
+                            found.approved
+                            ? "✓ YES"
+                            : "✗ NO"
+                        }
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+            `;
+
+
+    } catch(error) {
+
+        console.error(
+            error
+        );
+
+
+        resultBox.style.display =
+            "block";
+
+
+        resultContent.innerHTML =
+            `
+            <p
+                style="
+                    color:#c62828;
+                    font-weight:bold;
+                "
+            >
+                Unable to search the database.
+            </p>
+            `;
+
+    }
+
+}
+
+
+/* =========================================================
+   SECURITY
+   ========================================================= */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+/*
+   IndexedDB initialization happens above.
+
+   initializeLogin() is called after the
+   database successfully opens.
+*/
+
+
+</script>
+ 
+</body>
+</html>
